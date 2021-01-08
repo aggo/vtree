@@ -10,13 +10,16 @@ export default class ObjectReader {
   constructor() {
   }
 
-  read(obj) {
-    return obj2node(obj, '');
+  read(obj, maxDepth) {
+    return obj2node(obj, '',  maxDepth, 0);
   }
 }
 
 
-function obj2node(obj, linkName) {
+function obj2node(obj, linkName, maxDepth, currentDepth) {
+  if (currentDepth==maxDepth){
+    return new StringNode("");
+  }
   var node;
 
   if (isPrimitive(obj)) {
@@ -26,18 +29,18 @@ function obj2node(obj, linkName) {
 
     obj.forEach((item, i) => {
       if (Array.isArray(item)) {
-        node = new DummyNode(obj2node(item, ''));
+        node = new DummyNode(obj2node(item, '', maxDepth, currentDepth+1));
         node.decorators.push(new LinkNameDecorator(`${linkName}[${i}]`));
         nodes.push(node);
       } else {
-        node = obj2node(item, `${linkName}[${i}]`);
+        node = obj2node(item, `${linkName}[${i}]`, maxDepth, currentDepth+1);
         nodes.push(node);
       }
     });
 
     // empty array
     if (nodes.length === 0) {
-      node = obj2node(null, `${linkName}[]`);
+      node = obj2node(null, `${linkName}[]`,  maxDepth, currentDepth+1);
       nodes.push(node);
     }
 
@@ -57,7 +60,7 @@ function obj2node(obj, linkName) {
       if (isPrimitive(data)) {
         tbl.push([name, data]);
       } else {
-        children.push(obj2node(data, name));
+        children.push(obj2node(data, name, maxDepth, currentDepth+1));
       }
     }
 

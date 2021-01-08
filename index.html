@@ -22,11 +22,13 @@ var vt;
 window.onload = function () {
   var container = document.getElementById("container");
   var msg = document.getElementById("msg");
+  var maxDepth = Number(document.getElementById("max").value);
   vt = new VTree(container);
   var reader = new VTree.reader.Object();
 
   function updateTree() {
     var s = document.getElementById("from-text").value;
+    var maxDepth = Number(document.getElementById("max").value);
 
     msg.innerHTML = '';
 
@@ -36,7 +38,7 @@ window.onload = function () {
       msg.innerHTML = 'JSON parse error: ' + e.message;
     }
 
-    var data = reader.read(jsonData);
+    var data = reader.read(jsonData, maxDepth);
 
     vt.data(data)
       .update();
@@ -62,6 +64,10 @@ window.onload = function () {
     <h1>Online JSON to Tree Diagram Converter</h1>
 
     <p style="text-align: right;"><a href="https://github.com/ivan111/vtree">github</a></p>
+    <div style="margin-top: 1em;">
+      <label for="max">max depth</label><br>
+      <input id="max" value=5>
+    </div>
 
     <div style="margin-top: 1em;">
       <label for="from-text">JSON</label><br>

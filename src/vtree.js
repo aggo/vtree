@@ -10,11 +10,11 @@ import ArrayLayout from './layout/array.js';
 
 import ObjectReader from './reader/object.js';
 
-import { visitAfter } from './util.js';
+import {visitAfter} from './util.js';
 
 
-const WIDTH = 960;
-const HEIGHT = 800;
+const WIDTH = 100;
+const HEIGHT = 100;
 const MARGIN = 20;
 
 const DEFAULT_TREE_LAYOUT_HEIGHT = 50;
@@ -22,10 +22,10 @@ const DEBUG_TREE_LAYOUT_HEIGHT = 100;
 
 const style = `
 .vtree-node text { font: 14px sans-serif; }
-.vtree-link { fill: none; stroke: #888; stroke-width: 2px; }
+.vtree-link { fill: none; stroke: #888; stroke-width: 7px; }
 .vtree-table { stroke-width: 2px; stroke: steelblue; }
 path.vtree-table { fill: white; }
-g.vtree-node rect { fill: white; stroke: black; stroke-width: 1px; }
+g.vtree-node rect { fill: white; stroke: black; stroke-width: 2px; }
 g.vtree-node rect.number-text { fill: #d8f0ed; }
 g.vtree-node rect.string-text { fill: #e7f0db; }
 g.vtree-node rect.boolean-text { fill: #e1d8f0; }
@@ -58,8 +58,9 @@ class VTree {
 
     this.d3.svg = this.d3.container.append('svg')
       .attr('class', 'vtree')
-      .attr('width', this._width)
-      .attr('height', this._height)
+        // .attr('width', this._width)
+        // .attr('height', this._height)
+        .attr("viewBox", "0 0 960 500")
       .call(this.d3.zoomListener);
   }
 
